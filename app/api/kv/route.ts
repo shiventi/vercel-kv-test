@@ -4,19 +4,19 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    // Generate a unique key and value for every request
-    const key = `test-entry-${Date.now()}-${Math.random()}`;
-    const value = { timestamp: new Date().toISOString() };
+    // just make a unique key for each req
+    const key = `entry-${Date.now()}-${Math.random()}`;
+    const val = { ts: new Date().toISOString() };
     
-    // This is the billable operation.
-    await kv.set(key, JSON.stringify(value));
+    // the actual write to the db
+    await kv.set(key, JSON.stringify(val));
     
-    // Return a success message
-    return NextResponse.json({ success: true, key: key }, { status: 200 });
+    // send back a success msg
+    return NextResponse.json({ ok: true, key: key });
 
-  } catch (error) {
-    // If something goes wrong, return an error
-    console.error(error);
-    return NextResponse.json({ success: false, error: 'Failed to write to KV' }, { status: 500 });
+  } catch (err) {
+    // if it breaks, log it and send an error
+    console.error(err);
+    return NextResponse.json({ ok: false, error: 'kv write failed' }, { status: 500 });
   }
 }
