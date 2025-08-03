@@ -4,19 +4,16 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    // just make a unique key for each req
     const key = `entry-${Date.now()}-${Math.random()}`;
     const val = { ts: new Date().toISOString() };
     
-    // the actual write to the db
+    // this "magic" kv object will now work because we are going to fix the environment variables
     await kv.set(key, JSON.stringify(val));
     
-    // send back a success msg
-    return NextResponse.json({ ok: true, key: key });
+    return NextResponse.json({ success: true, key: key });
 
   } catch (err) {
-    // if it breaks, log it and send an error
     console.error(err);
-    return NextResponse.json({ ok: false, error: 'kv write failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'kv write failed', details: (err as Error).message }, { status: 500 });
   }
 }
