@@ -9,12 +9,12 @@ const FIREWALL_CONFIG = {
   
   // block all requests coming from any cloudflare worker?
   blockWorkers: {
-    enabled: true, 
+    enabled: false, 
   },
 
   // rate limit settings
   rateLimit: {
-    enabled: false,
+    enabled: true,
     // how many requests are allowed...
     limit: 20,
     // ...in this time window (in seconds).
