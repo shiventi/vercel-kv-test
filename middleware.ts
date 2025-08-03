@@ -14,7 +14,7 @@ const FIREWALL_CONFIG = {
 
   // rate limit settings
   rateLimit: {
-    enabled: true,
+    enabled: false,
     // how many requests are allowed...
     limit: 20,
     // ...in this time window (in seconds).
